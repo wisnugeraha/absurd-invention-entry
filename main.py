@@ -8,6 +8,9 @@ the artifact back to confirm the bytes landed exactly.
 import os
 
 # The pitch, verbatim: an alarm clock that apologises for waking you up.
+# MAX_CHARS is the competition limit; PITCH must stay under it.
+MAX_CHARS = 220
+
 PITCH = (
     "A self-apologising alarm clock that whispers "
     "'I'm sorry it's 7am, I know, I'm the worst' every morning "
@@ -20,6 +23,8 @@ GATE_ARTIFACT = "/output/entry.txt"
 
 def write_entry() -> int:
     """Write the pitch to the gate artifact, then read it back to confirm."""
+    if len(PITCH) > MAX_CHARS:
+        raise SystemExit(f"entry too long: {len(PITCH)} > {MAX_CHARS}")
     os.makedirs(os.path.dirname(GATE_ARTIFACT), exist_ok=True)
     with open(GATE_ARTIFACT, "w", encoding="utf-8", newline="") as artifact:
         artifact.write(PITCH)
